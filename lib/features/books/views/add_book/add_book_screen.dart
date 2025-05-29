@@ -18,6 +18,7 @@ class _AddBookScreenState extends ConsumerState<AddBookScreen> {
     'Horreur/Epouvante',
     'Romance',
     'Biographie',
+    'Philosophie',
     'Documentaire',
     'Sciences',
     'Histoire',

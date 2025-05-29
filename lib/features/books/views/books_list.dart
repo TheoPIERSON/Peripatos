@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:peripatos/features/books/widgets/book_filter_button.dart';
 import '../widgets/book_grid.dart';
+import '../providers/book_provider.dart';
 
 class BooksListScreen extends ConsumerWidget {
   const BooksListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Charger les livres au montage du widget
+    ref.read(booksProvider.notifier).loadBooks();
+    
     return Scaffold(
       appBar: _buildAppBar(context),
       body: const Column(

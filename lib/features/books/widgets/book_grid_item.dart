@@ -14,7 +14,6 @@ class BookGridItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: BookColors.getGenreColor(book.genre),
-        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -91,7 +90,6 @@ class _BookRating extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(Icons.star, color: Colors.white70, size: 16),
         const SizedBox(width: 4),
         Text(
           rating,

@@ -54,9 +54,39 @@ class _BookDetailsModalState extends ConsumerState<BookDetailsModal> {
       createdAt: widget.book.createdAt,
     );
 
-    await ref.read(booksProvider.notifier).updateBook(updatedBook.id, updatedBook.toJson());
+    await ref
+        .read(booksProvider.notifier)
+        .updateBook(updatedBook.id, updatedBook.toJson());
     if (mounted) {
       Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _deleteBook() async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Supprimer le livre'),
+        content: const Text('Êtes-vous sûr de vouloir supprimer ce livre ?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Annuler'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Supprimer'),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete ?? false) {
+      await ref.read(booksProvider.notifier).deleteBook(widget.book.id);
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
@@ -70,21 +100,15 @@ class _BookDetailsModalState extends ConsumerState<BookDetailsModal> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Titre',
-              ),
+              decoration: const InputDecoration(labelText: 'Titre'),
             ),
             TextField(
               controller: _authorController,
-              decoration: const InputDecoration(
-                labelText: 'Auteur',
-              ),
+              decoration: const InputDecoration(labelText: 'Auteur'),
             ),
             TextField(
               controller: _genreController,
-              decoration: const InputDecoration(
-                labelText: 'Genre',
-              ),
+              decoration: const InputDecoration(labelText: 'Genre'),
             ),
             TextField(
               controller: _startedController,
@@ -95,9 +119,7 @@ class _BookDetailsModalState extends ConsumerState<BookDetailsModal> {
             ),
             TextField(
               controller: _ratingController,
-              decoration: const InputDecoration(
-                labelText: 'Note (0-5)',
-              ),
+              decoration: const InputDecoration(labelText: 'Note (0-5)'),
               keyboardType: TextInputType.number,
             ),
             TextField(
@@ -113,13 +135,15 @@ class _BookDetailsModalState extends ConsumerState<BookDetailsModal> {
       ),
       actions: [
         TextButton(
+          onPressed: _deleteBook,
+          child: const Text('Supprimer'),
+          style: TextButton.styleFrom(foregroundColor: Colors.red),
+        ),
+        TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Annuler'),
         ),
-        TextButton(
-          onPressed: _updateBook,
-          child: const Text('Enregistrer'),
-        ),
+        TextButton(onPressed: _updateBook, child: const Text('Enregistrer')),
       ],
     );
   }

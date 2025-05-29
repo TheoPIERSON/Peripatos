@@ -17,6 +17,8 @@ class BookColors {
         return Colors.green[400] ?? Colors.green;
       case 'essai':
         return Colors.orange[400] ?? Colors.orange;
+      case 'philosophie':
+        return const Color.fromARGB(255, 55, 137, 63);
       default:
         return Colors.grey[300] ?? Colors.grey;
     }
