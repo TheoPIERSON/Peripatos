@@ -24,7 +24,7 @@ class BookFilterButtons extends ConsumerWidget {
             onPressed: () =>
                 ref.read(bookFilterProvider.notifier).state = BookFilter.all,
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 20),
           _FilterButton(
             text: 'Liste de lecture',
             isSelected: filter == BookFilter.wishlist,
@@ -50,15 +50,43 @@ class _FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: isSelected ? Colors.blue : Colors.grey[200],
-        foregroundColor: isSelected ? Colors.white : Colors.black,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: isSelected ? Colors.blue[800]! : Colors.grey[600]!,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(0), // Coins droits
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.8), // Ombre opaque et brute
+            offset: const Offset(4, 4), // Décalage fixe pour effet années 2000
+            blurRadius: 0, // Pas de flou pour une ombre nette
+            spreadRadius: 0,
+          ),
+        ],
       ),
-      child: Text(text),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32,
+              vertical: 16,
+            ), // Plus de padding
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSelected ? Colors.blue[800] : Colors.grey[700],
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
